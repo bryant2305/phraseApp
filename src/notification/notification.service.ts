@@ -1,50 +1,61 @@
 import { Injectable } from '@nestjs/common';
-import { Novu } from '@novu/node';
+import { Novu, TriggerRecipientsTypeEnum } from '@novu/node';
+import { InjectNovu } from './notification.provider';
+
 @Injectable()
 export class NotificationService {
-  private readonly novu: Novu;
+  constructor(
+    @InjectNovu()
+    private readonly novu: Novu,
+  ) {}
 
-  constructor() {
-    this.novu = new Novu(process.env.NOVU_API_KEY);
+  async createSubscriber(subscriberId: string, email: string) {
+    const result = await this.novu.subscribers.identify(subscriberId, {
+      email,
+      firstName: 'Subscriber',
+    });
+
+    return result.data;
   }
 
-  async sendNotification() {
-    try {
-      // const user = await this.userService.getUserById(userId);
-      // if (!user) {
-      //   throw new Error(`User with ID ${userId} not found`);
-      // }
+  async sendEmail(subscriberId: string, email: string, description: string) {
+    const result = await this.novu.trigger('email-quickstart', {
+      to: {
+        subscriberId,
+        email,
+      },
+      payload: {
+        email,
+        description,
+      },
+    });
 
-      // const profile = user.profile;
-      // if (!profile) {
-      //   throw new Error(`Profile for user with ID ${userId} not found`);
-      // }
-      // const email = user.email;
-      // if (!email) {
-      //   throw new Error(`email not found`);
-      // }
+    return result.data;
+  }
 
-      // const formattedPhoneNumber = this.utilsService.validateNumber(
-      //   profile.phone,
-      // );
+  async createTopic(key: string, name: string) {
+    const result = await this.novu.topics.create({
+      key,
+      name,
+    });
 
-      const response = await this.novu.trigger('demo-verify-otp', {
-        to: {
-          subscriberId: '66b38f8faa4218d126b20170',
-          email: 'bryantperezgarcia005@gmail.com',
-          phone: 'formattedPhoneNumber,',
-        },
-        payload: {
-          validationCode: 123456,
-          magicLinkURL: 'https://slack.com/magic/link',
-          __source: 'studio-test-workflow',
-        },
-      });
+    return result.data;
+  }
 
-      return response;
-    } catch (error) {
-      console.error('Error sending notification:', error);
-      throw error;
-    }
+  async addTopicSubscriber(key: string, subscriberId: string) {
+    const result = await this.novu.topics.addSubscribers(key, {
+      subscribers: [subscriberId],
+    });
+
+    return result.data;
+  }
+
+  async sendTopicNotification(key: string, description: string) {
+    const result = await this.novu.trigger('email-quickstart', {
+      to: [{ type: TriggerRecipientsTypeEnum.TOPIC, topicKey: key }],
+      payload: { description },
+    });
+
+    return result.data;
   }
 }
