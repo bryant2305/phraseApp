@@ -3,9 +3,11 @@ import { QuotesService } from './quotes.service';
 import { QuotesController } from './quotes.controller';
 import { HttpModule } from '@nestjs/axios';
 import { EmailService } from 'src/email/email.service';
+import { UsersService } from '../users/users.service';
+import { UsersModule } from '../users/users.module';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, UsersModule],
   controllers: [QuotesController],
   providers: [QuotesService, EmailService],
 })

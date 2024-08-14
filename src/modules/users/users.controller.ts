@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from 'src/auth/jwt-auth-guard';
 
 @Controller('users')
 @ApiTags('users')
@@ -10,7 +11,7 @@ export class UsersController {
   @Get()
   @ApiOperation({ summary: 'get all users' })
   @ApiBearerAuth()
-  // @UseGuards(JwtGuard, AdminGuard)
+  @UseGuards(JwtGuard)
   findAll() {
     return this.usersService.findAll();
   }

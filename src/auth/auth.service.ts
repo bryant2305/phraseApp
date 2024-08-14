@@ -2,8 +2,6 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/modules/users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
-import { AuthGuard } from './auth-guard-token';
-import { JwtStrategy } from './jwt.strategy';
 import { JwtService } from '@nestjs/jwt';
 import { plainToClass } from 'class-transformer';
 import { User } from 'src/modules/users/entities/user.entity';
