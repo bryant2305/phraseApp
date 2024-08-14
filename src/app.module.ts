@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { QuotesModule } from './modules/quotes/quotes.module';
 import { NotificationModule } from './notification/notification.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { NotificationModule } from './notification/notification.module';
     }),
     QuotesModule,
     NotificationModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
