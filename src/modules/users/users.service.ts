@@ -4,11 +4,13 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { EmailService } from 'src/email/email.service';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    // private readonly emailService: EmailService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
@@ -36,6 +38,7 @@ export class UsersService {
         },
       };
       await this.userRepository.save(createUser);
+      // await this.emailService.sendQuoteEmail();
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, passwordConfirmation, ...userResponse } = createUserDto;

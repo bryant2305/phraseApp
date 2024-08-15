@@ -13,4 +13,7 @@ export class Profile {
 
   @Column()
   phone: string;
+
+  @Column()
+  notification_time: string;
 }

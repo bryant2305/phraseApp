@@ -23,7 +23,7 @@ export class QuotesController {
     const userId = req.user.id;
     const user = await this.userService.getUserById(userId);
     const quote = await this.quotesService.getRandomQuote().toPromise();
-    const email = user.email; // Reemplaza con el email del destinatario
+    const email = user.email;
 
     await this.emailService.sendQuoteEmail(email, quote, req);
 
