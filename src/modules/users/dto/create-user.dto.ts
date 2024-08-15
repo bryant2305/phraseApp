@@ -27,6 +27,11 @@ export class CreateUserDto {
   phone: string;
 
   @IsString()
+  @ApiProperty({ example: '10:00' })
+  @IsNotEmpty()
+  notification_time: string;
+
+  @IsString()
   @ApiProperty({ example: 'Admin' })
   @IsNotEmpty()
   passwordConfirmation: string;

@@ -1,14 +1,18 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
 import { QuotesController } from './quotes.controller';
 import { HttpModule } from '@nestjs/axios';
-import { EmailService } from 'src/email/email.service';
-import { UsersService } from '../users/users.service';
+import { EmailModule } from 'src/email/email.module';
 import { UsersModule } from '../users/users.module';
 
 @Module({
-  imports: [HttpModule, UsersModule],
+  imports: [
+    HttpModule,
+    forwardRef(() => UsersModule), // Usa forwardRef para resolver la circularidad
+    EmailModule,
+  ],
   controllers: [QuotesController],
-  providers: [QuotesService, EmailService],
+  providers: [QuotesService],
+  exports: [QuotesService],
 })
 export class QuotesModule {}
