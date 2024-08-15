@@ -1,16 +1,20 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import { Injectable, HttpException, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { EmailService } from 'src/email/email.service';
+import { QuotesService } from '../quotes/quotes.service';
+import { lastValueFrom } from 'rxjs';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    // private readonly emailService: EmailService,
+    private readonly emailService: EmailService,
+    @Inject(forwardRef(() => QuotesService)) // Usa forwardRef para resolver la circularidad
+    private readonly quoteService: QuotesService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
@@ -35,10 +39,17 @@ export class UsersService {
           firstName: createUserDto.firstName,
           lastName: createUserDto.lastName,
           phone: createUserDto.phone,
+          notification_time: createUserDto.notification_time,
         },
       };
       await this.userRepository.save(createUser);
-      // await this.emailService.sendQuoteEmail();
+
+      const quote = await lastValueFrom(this.quoteService.getRandomQuote());
+      await this.emailService.sendFirstQuoteEmail(
+        createUserDto.email,
+        quote,
+        createUser.profile.firstName,
+      );
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, passwordConfirmation, ...userResponse } = createUserDto;

@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { UsersModule } from 'src/modules/users/users.module';
+
 @Module({
   imports: [
     MailerModule.forRootAsync({
@@ -30,7 +31,7 @@ import { UsersModule } from 'src/modules/users/users.module';
       }),
       inject: [ConfigService],
     }),
-    UsersModule,
+    forwardRef(() => UsersModule), // Usa forwardRef para resolver la circularidad
   ],
   providers: [EmailService],
   exports: [EmailService],

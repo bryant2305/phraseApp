@@ -18,8 +18,8 @@ export class QuotesService {
     const user = await this.userService.getUserById(userId);
     const quote = await this.getRandomQuote().toPromise();
     const email = user.email;
-
-    await this.emailService.sendQuoteEmail(email, quote, req);
+    const userFirstName = user.profile.firstName;
+    await this.emailService.sendQuoteEmail(email, quote, userFirstName);
   }
 
   getRandomQuote(): Observable<any> {
