@@ -4,6 +4,7 @@ import { QuotesController } from './quotes.controller';
 import { HttpModule } from '@nestjs/axios';
 import { EmailModule } from 'src/email/email.module';
 import { UsersModule } from '../users/users.module';
+import { QuoteSchedulerService } from './quote-scheduler.service';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { UsersModule } from '../users/users.module';
     EmailModule,
   ],
   controllers: [QuotesController],
-  providers: [QuotesService],
+  providers: [QuotesService , QuoteSchedulerService],
   exports: [QuotesService],
 })
 export class QuotesModule {}

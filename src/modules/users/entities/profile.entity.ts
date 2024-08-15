@@ -1,3 +1,4 @@
+import { IsOptional } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -15,5 +16,6 @@ export class Profile {
   phone: string;
 
   @Column()
+  @IsOptional()
   notification_time: string;
 }

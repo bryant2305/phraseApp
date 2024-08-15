@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import typeorm from './config/type.orm';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AuthModule } from './auth/auth.module';
       useFactory: async (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
+    ScheduleModule.forRoot(),
     QuotesModule,
     NotificationModule,
     EmailModule,

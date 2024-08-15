@@ -8,11 +8,11 @@ import { JwtGuard } from 'src/auth/jwt-auth-guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get()
-  @ApiOperation({ summary: 'get all users' })
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
-  findAll() {
-    return this.usersService.findAll();
-  }
+  // @Get()
+  // @ApiOperation({ summary: 'get all users' })
+  // @ApiBearerAuth()
+  // @UseGuards(JwtGuard)
+  // findAll() {
+  //   return this.usersService.findAll();
+  // }
 }
