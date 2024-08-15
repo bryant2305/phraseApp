@@ -37,3 +37,21 @@ export class QuoteSchedulerService {
     }
   }
 }
+// // @Cron('* * * * *') // Verifica cada minuto
+// // async sendScheduledQuotes() {
+// //   const users = await this.usersService.getAllUsers();
+
+// //   for (const user of users) {
+// //     const currentTime = new Date();
+// //     const [hour, minute] = user.notificationTime.split(':').map(Number);
+
+// //     if (currentTime.getHours() === hour && currentTime.getMinutes() === minute) {
+// //       const quote = await this.getRandomQuote();
+// //       await this.emailService.sendQuoteEmail(
+// //         user.email,
+// //         quote,
+// //         user.profile.firstName,
+// //       );
+// //     }
+// //   }
+// }
