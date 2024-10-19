@@ -24,7 +24,7 @@ export class QuotesService {
 
   getRandomQuote(): Observable<any> {
     return this.httpService
-      .get('https://api.quotable.io/random')
+      .get('http://api.quotable.io/random')
       .pipe(map((response) => response.data));
   }
 }
