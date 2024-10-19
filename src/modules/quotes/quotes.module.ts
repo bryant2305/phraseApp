@@ -13,7 +13,7 @@ import { QuoteSchedulerService } from './quote-scheduler.service';
     EmailModule,
   ],
   controllers: [QuotesController],
-  providers: [QuotesService , QuoteSchedulerService],
+  providers: [QuotesService, QuoteSchedulerService],
   exports: [QuotesService],
 })
 export class QuotesModule {}
